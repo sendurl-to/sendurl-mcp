@@ -1,0 +1,14 @@
+{
+  "mcpServers": {
+    "sendurl": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "mcp-remote",
+        "https://api.sendurl.to/mcp",
+        "--header-file",
+        "/Users/you/.config/sendurl/headers.txt"
+      ]
+    }
+  }
+}

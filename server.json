@@ -1,0 +1,26 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "to.sendurl/sendurl",
+  "title": "SendURL",
+  "description": "Create short links and read click analytics from your AI assistant. On every plan, Free included.",
+  "version": "1.0.0",
+  "websiteUrl": "https://sendurl.to/features/mcp",
+  "repository": {
+    "url": "https://github.com/sendurl-to/sendurl-mcp",
+    "source": "github"
+  },
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://api.sendurl.to/mcp",
+      "headers": [
+        {
+          "name": "Authorization",
+          "description": "Optional: \"Bearer \" followed by a SendURL API key (snu_...). Leave it out to sign in with OAuth instead.",
+          "isRequired": false,
+          "isSecret": true
+        }
+      ]
+    }
+  ]
+}

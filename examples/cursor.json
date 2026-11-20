@@ -1,0 +1,7 @@
+{
+  "mcpServers": {
+    "sendurl": {
+      "url": "https://api.sendurl.to/mcp"
+    }
+  }
+}

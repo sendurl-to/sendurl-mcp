@@ -1,0 +1,10 @@
+{
+  "mcpServers": {
+    "sendurl": {
+      "url": "https://api.sendurl.to/mcp",
+      "headers": {
+        "Authorization": "Bearer ${env:SENDURL_API_KEY}"
+      }
+    }
+  }
+}

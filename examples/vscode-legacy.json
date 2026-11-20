@@ -1,0 +1,19 @@
+{
+  "inputs": [
+    {
+      "type": "promptString",
+      "id": "sendurl-api-key",
+      "description": "SendURL API key",
+      "password": true
+    }
+  ],
+  "servers": {
+    "sendurl": {
+      "type": "http",
+      "url": "https://api.sendurl.to/mcp",
+      "headers": {
+        "Authorization": "Bearer ${input:sendurl-api-key}"
+      }
+    }
+  }
+}

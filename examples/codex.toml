@@ -1,0 +1,6 @@
+# ~/.codex/config.toml (a project's .codex/config.toml is read only in a project you trust)
+# With bearer_token_env_var, Codex sends "Authorization: Bearer <the value of SENDURL_API_KEY>".
+# Leave that line out and run `codex mcp login sendurl` to sign in instead.
+[mcp_servers.sendurl]
+url = "https://api.sendurl.to/mcp"
+bearer_token_env_var = "SENDURL_API_KEY"
