@@ -40,13 +40,13 @@ a config file**, least of all one inside a repository. Every example here names 
 ### claude.ai and Claude Desktop
 
 1. **Customize → Connectors → + Add → Add custom connector.**
-2. Name: `SendURL`. URL: `https://api.sendurl.to/mcp`. **Continue**, keep the sign-in Claude detects, leave
-   **Request headers** empty, **Add**.
-3. **Connect**, sign in to SendURL and approve the permissions.
+2. Name: `SendURL`. URL: `https://api.sendurl.to/mcp`. If Claude shows advanced settings, keep the sign-in it
+   detects and leave any request headers empty, then add the connector.
+3. **Connect**, sign in to SendURL, choose the permissions and **Allow**.
 4. In a chat: **+ → Connectors**, turn SendURL on.
 
 On Team and Enterprise, an owner adds the connector in **Organization settings → Connectors** first; members then
-connect from **Customize → Connectors**. Don't put an API key under **Request headers**: Claude would keep it, and
+connect from **Customize → Connectors**. Don't put an API key in the connector's request headers: Claude would keep it, and
 on Team and Enterprise every member would share it.
 
 ### Claude Code
@@ -61,9 +61,11 @@ Code.) With an API key, scopes and a shareable `.mcp.json`: [examples/claude-cod
 
 ### ChatGPT
 
-1. Go to [chatgpt.com/plugins](https://chatgpt.com/plugins), **+ → Add custom MCP server**.
+1. Open ChatGPT's settings for apps and connectors and choose to add a custom MCP server (the menu's name depends
+   on your plan and changes often).
 2. Name: `SendURL`. Server URL: `https://api.sendurl.to/mcp`. Authentication: **OAuth**.
-3. Create it as a plugin and install it, sign in to SendURL, approve. In a chat, type `@` and pick SendURL.
+3. Confirm ChatGPT's warning about custom servers and create it, sign in to SendURL, choose the permissions and
+   **Allow**. In a chat, pick SendURL from the tools menu or by typing `@`.
 
 ChatGPT signs in; it does not send API keys. Custom MCP servers depend on your ChatGPT plan, and on a Business or
 Enterprise workspace an admin may need to allow them.
@@ -106,7 +108,7 @@ A workspace-root `.mcp.json`, or `~/.copilot/mcp-config.json` for every workspac
 [examples/vscode.json](examples/vscode.json). In this format the variable is written `${SENDURL_API_KEY}` (not
 `${env:…}`, and not a bare `$SENDURL_API_KEY`, which VS Code sends as literal text); start VS Code from a shell where
 it is set. To sign in instead, leave out `headers` and complete the authorization when VS Code prompts for it (or
-**MCP: List Servers → sendurl → Authenticate** when offered).
+start the sign-in from the server's actions in **MCP: List Servers**).
 
 The older `.vscode/mcp.json` format, deprecated by VS Code and due to be removed in February 2027, can ask for the key
 once and keep it as a secret: [examples/vscode-legacy.json](examples/vscode-legacy.json).
@@ -165,29 +167,29 @@ scope and error codes apply.
 
 | Tool | What it does | Permission | Kind |
 |---|---|---|---|
-| `get_account` | Your workspace, plan and usage | `workspace:read` | read-only |
-| `list_links` | List links: search, folder, tag and sort, 10 at a time | `links:read` | read-only |
-| `get_link` | One link, with its click total and QR scans | `links:read` | read-only |
-| `create_link` | Create a short link, with a custom slug, tags or a folder | `links:write` | creates |
-| `update_link` | Change a link: destination, title, tags, folder, on or off | `links:write` | **destructive** |
-| `delete_link` | Delete a link (paid plans; Free switches links off instead) | `links:delete` | **destructive** |
-| `pick_ab_test_winner` | End a link's A/B test and keep one destination | `links:write` | **destructive** |
-| `get_link_stats` | A link's clicks per day | `links:read` | read-only |
-| `list_link_clicks` | A link's clicks one by one, newest first | `links:read` | read-only |
-| `get_analytics_overview` | Clicks, top links, countries, devices and referrers for a period | `analytics:read` | read-only |
-| `get_analytics_breakdown` | Clicks by country, device, browser, referrer and more | `analytics:read` | read-only |
-| `list_analytics_clicks` | Recent clicks across your links | `analytics:read` | read-only |
-| `list_folders` | List your folders (workspace keys and connections only) | `workspace:read` | read-only |
+| `get_account` | Your workspace, plan, limits and usage | `workspace:read` | read-only |
+| `list_links` | Find links by search text, folder, tag or status; newest or most-clicked first, 10 at a time | `links:read` | read-only |
+| `get_link` | One link: destination, status, tags, click total and QR scans | `links:read` | read-only |
+| `create_link` | Create a short link: custom slug, title, folder and tags; expiry or a password on Pro and above | `links:write` | creates |
+| `update_link` | Change a link: title, tags, folder, on or off; its destination, expiry or password on Pro and above | `links:write` | **destructive** |
+| `delete_link` | Delete a link for good (paid plans; Free switches links off instead) | `links:delete` | **destructive** |
+| `pick_ab_test_winner` | End a link's A/B test: the winning variant becomes its destination | `links:write` | **destructive** |
+| `get_link_stats` | A link's all-time clicks per day | `links:read` | read-only |
+| `list_link_clicks` | A link's clicks one by one, newest first: country, device, browser and referring site | `links:read` | read-only |
+| `get_analytics_overview` | Clicks for a period: totals, a daily series, the period before, top links, top tags and social sources | `analytics:read` | read-only |
+| `get_analytics_breakdown` | Clicks ranked by link, country, device, browser, OS, referrer or A/B variant; by city or UTM on Pro and above | `analytics:read` | read-only |
+| `list_analytics_clicks` | Clicks one by one for a period, across the workspace, a folder or one link | `analytics:read` | read-only |
+| `list_folders` | Your folders, Default first (workspace keys and connections only) | `workspace:read` | read-only |
 | `create_folder` | Create a folder (workspace keys and connections only) | `folders:write` | creates |
-| `list_tags` | List your tags | `workspace:read` | read-only |
-| `list_domains` | List your domains | `workspace:read` | read-only |
-| `get_domain` | One domain and its status | `workspace:read` | read-only |
+| `list_tags` | Your tags, to tag or filter links | `workspace:read` | read-only |
+| `list_domains` | Your snu.to subdomains and custom domains, with their status | `workspace:read` | read-only |
+| `get_domain` | One domain, with its status and DNS set-up | `workspace:read` | read-only |
 
 `list_domains` and `get_domain` answer `domains_unavailable` until custom domains are live on SendURL.
 
 | Permission | Console label | Allows |
 |---|---|---|
-| `links:read` | Read links | List and view links, their daily stats and clicks |
+| `links:read` | Read links | List and view links, their daily stats and their clicks one by one |
 | `links:write` | Create and edit links | Create links, change them, pick an A/B test winner |
 | `links:delete` | Delete links | Delete links (paid plans) |
 | `analytics:read` | Read analytics | Overview, breakdowns and clicks across links |
@@ -214,12 +216,17 @@ On Free, a click's city is withheld (`cityLocked`), as in the console.
 
 ## Example prompts
 
+Each one works on the Free plan (7 days of analytics history) and is answered in one go.
+
 - "Shorten https://example.com and show me its clicks."
 - "Shorten https://example.com/launch and tag it Campaign."
+- "How many links do I have left on my plan?"
 - "Which of my links point to the old pricing page? Switch them off."
-- "How many clicks did my launch link get this week, and from where?"
-- "Summarise last month's clicks by country and referrer."
-- "Which variant of my signup link is winning? Keep it."
+- "How many clicks has my launch link had, and how many were QR scans?"
+- "Summarise this week's clicks by country and referrer."
+- "What are my five most-clicked links this week?"
+- "Which variant of my signup link is winning? Keep it." (keeping a winner that changes the destination is Pro and
+  above)
 - "Create a folder for the spring campaign and move my spring links into it."
 
 ## Limits
