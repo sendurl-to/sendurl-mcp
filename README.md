@@ -98,7 +98,11 @@ Or leave out `bearer_token_env_var` and run `codex mcp login sendurl` to sign in
 }
 ```
 
-Cursor signs in with OAuth: your browser opens the SendURL sign-in. With an API key instead, the header reads the key
+Cursor signs in with OAuth: your browser opens the SendURL sign-in. Cursor registers itself with SendURL, so the
+SendURL page shows "Unverified app" and a red warning that the app's name looks like a well-known brand but isn't
+hosted by that brand. Both are expected for Cursor's own app; for any other app, that warning is a reason to stop.
+Before you choose **Allow**, check the line under the heading: "You'll be sent back to localhost" (the desktop app) or
+"www.cursor.com" (on the web). Anything else, choose **Deny**. With an API key instead, the header reads the key
 from your environment with Cursor's `${env:SENDURL_API_KEY}` syntax:
 [examples/cursor-api-key.json](examples/cursor-api-key.json).
 
@@ -144,9 +148,11 @@ Claude Desktop itself doesn't need the bridge: use the connector above.
 
 ## Authentication
 
-**Sign in (OAuth 2.1).** Your client opens a SendURL page: sign in, check the permissions the client asks for,
-untick any you don't want, approve. Only the workspace owner or an admin can approve. The connection shows under
-**Connected apps** on the console's [API keys](https://console.sendurl.to/api-keys) page, where you can revoke it.
+**Sign in (OAuth 2.1).** Your client opens a SendURL page that shows where the client connects from (with a
+**Verified** label for a client SendURL has checked) and where your browser goes back to. Sign in, check the
+permissions under "This app will be able to" (grouped View, Create and edit, Delete), untick any you don't want,
+approve. Only the workspace owner or an admin can approve. The connection shows under **Connected apps** on the
+console's [API keys](https://console.sendurl.to/api-keys) page: open it and choose **Disconnect** to cut it off.
 Access tokens last an hour and refresh automatically.
 
 **API key.** Create one on the [API keys](https://console.sendurl.to/api-keys) page: **New key**, choose its reach
@@ -242,8 +248,8 @@ Each one works on the Free plan (7 days of analytics history) and is answered in
 
 - The MCP server sees only your workspace (or one folder, for a folder-level key), only with the permissions you
   gave it.
-- Revoke a connection or a key on the [API keys](https://console.sendurl.to/api-keys) page; it stops working on its
-  next call.
+- Disconnect a connection (under **Connected apps**) or revoke a key on the
+  [API keys](https://console.sendurl.to/api-keys) page; it stops working on its next call.
 - What your assistant does with the answers is up to the assistant's provider and its terms.
 - How SendURL handles your data: [Privacy Policy](https://sendurl.to/privacy). Security reports: [SECURITY.md](SECURITY.md).
 
